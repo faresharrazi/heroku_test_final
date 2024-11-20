@@ -1,0 +1,31 @@
+<h1>Transactions for <%= @account.name %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Amount</th>
+      <th>Category</th>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @transactions.each do |transaction| %>
+      <tr>
+        <td><%= transaction.title %></td>
+        <td><%= number_to_currency(transaction.amount) %></td>
+        <td><%= transaction.category %></td>
+        <td><%= transaction.date %></td>
+        <td>
+          <%= link_to "Show", account_transaction_path(transaction.account, transaction), class: "btn btn-primary btn-sm" %>
+          <%= link_to "Edit", edit_account_transaction_path(transaction.account, transaction), class: "btn btn-warning btn-sm" %>
+          <%= button_to "Delete", account_transaction_path(transaction.account, transaction), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Add New Transaction", new_account_transaction_path(@account), class: "btn btn-success" %>
+<%= link_to "Back to Accounts", accounts_path, class: "btn btn-secondary" %>

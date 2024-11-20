@@ -1,0 +1,53 @@
+<p style="color: green"><%= notice %></p>
+
+<!-- Render account details -->
+<h1><%= @account.name %></h1>
+<p><strong>Balance:</strong> <%= number_to_currency(@account.balance) %></p>
+
+<div>
+  <!-- Edit and Back Links -->
+  <%= link_to "Edit this account", edit_account_path(@account), class: "btn btn-secondary" %> |
+  <%= link_to "Back to accounts", accounts_path, class: "btn btn-secondary" %>
+
+  <!-- Destroy Button -->
+  <%= button_to "Destroy this account", @account, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to delete this account?" } %>
+</div>
+
+<hr>
+
+<!-- Transactions Section -->
+<h2>Transactions</h2>
+
+<% if @account.transactions.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @account.transactions.each do |transaction| %>
+        <tr>
+          <td><%= transaction.title %></td>
+          <td><%= number_to_currency(transaction.amount) %></td>
+          <td><%= transaction.category %></td>
+          <td><%= transaction.date %></td>
+          <td>
+            <%= link_to "Edit", edit_account_transaction_path(@account, transaction), class: "btn btn-warning btn-sm" %>
+            <%= button_to "Delete", account_transaction_path(@account, transaction), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No transactions found for this account.</p>
+<% end %>
+
+<!-- Add New Transaction Link -->
+<%= link_to "Add New Transaction", new_account_transaction_path(@account), class: "btn btn-primary" %>
+
